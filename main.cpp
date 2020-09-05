@@ -21,7 +21,7 @@ public:
 
 	void insertKeyValuePair(K key, V value) {
 		if (this->capacity == this->size) {
-			auto evicted = this->values.last();
+			auto evicted = this->values.back();
 
 			this->values.pop_back();
 			this->table.erase(evicted.first);
@@ -30,7 +30,7 @@ public:
 			this->size++;
 		}
 
-		pair<K, V> p = {key, value};
+		pair<K, V> p (key, value);
 		this->values.push_front(p);
 		this->table[key] = this->values.begin();
 		//this->table.insert(make_pair<K, V>(key, this->values.end()));
@@ -51,6 +51,8 @@ int main() {
 	// Hash table
 	LRUCache<string, int> cache(3);
 
-	
+	cache.insertKeyValuePair("b", 2);
+	cache.insertKeyValuePair("a", 1);
+
 	return 0;
 }
