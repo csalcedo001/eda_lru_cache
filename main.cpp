@@ -30,7 +30,8 @@ public:
 			this->size++;
 		}
 
-		this->values.push_front({key, value});
+		pair<K, V> p = {key, value};
+		this->values.push_front(p);
 		this->table[key] = this->values.begin();
 		//this->table.insert(make_pair<K, V>(key, this->values.end()));
 	}
