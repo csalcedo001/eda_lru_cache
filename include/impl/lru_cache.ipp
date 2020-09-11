@@ -80,7 +80,7 @@ std::optional<V> LRUCache<K, V>::getValueFromKey(K key) {
 }
 
 template <typename K, typename V>
-V LRUCache<K, V>::getMostRecentKey() {
+K LRUCache<K, V>::getMostRecentKey() {
 	return this->head_->key_;
 }
 

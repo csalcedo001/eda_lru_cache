@@ -25,7 +25,7 @@ public:
 
 	void insertKeyValuePair(K, V);
 	std::optional<V> getValueFromKey(K);
-	V getMostRecentKey();
+	K getMostRecentKey();
 
 	~LRUCache();
 };
