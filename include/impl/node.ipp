@@ -4,9 +4,15 @@
 namespace eda {
 
 template <typename K, typename V>
-Node<K, V>::Node() : std::pair<K, V>() {
+Node<K, V>::Node() {
 	this->prev_ = NULL;
 	this->next_ = NULL;
+}
+
+template <typename K, typename V>
+Node<K, V>::Node(K key, V value) : Node() {
+	this->key_ = key;
+	this->value_ = value;
 }
 
 } // namespace eda

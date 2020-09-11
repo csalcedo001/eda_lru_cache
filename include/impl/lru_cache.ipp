@@ -1,44 +1,97 @@
-#ifndef LRU_CACHE_IPP_
-#define LRU_CACHE_IPP_
+#ifndef LRU_CACHE_LRU_CACHE_IPP_
+#define LRU_CACHE_LRU_CACHE_IPP_
 
 namespace eda {
 
 template <typename K, typename V>
-LRUCache<K, V>::LRUCache(int size) : table(), values() {
-	this->items_ = 0;
+LRUCache<K, V>::LRUCache(int size) : table_() {
+	// Initialize empty cache
+	this->head_ = this->tail_ = NULL;
+
 	this->size_ = size;
+	this->items_ = 0;
 }
 
 template <typename K, typename V>
 void LRUCache<K, V>::insertKeyValuePair(K key, V value) {
 	if (this->size_ == this->items_) {
-		auto evicted = this->values.back();
+		Node<K, V> *evicted = this->tail_;
 
-		this->values.pop_back();
-		this->table.erase(evicted.first);
+		this->tail_ = evicted->prev_;
+		evicted->prev_->next_ = NULL;
+
+		this->table_.erase(evicted->key_);
+
+		delete evicted;
+	}
+
+	Node<K, V> *new_node = new Node<K, V>(key, value);
+
+	this->table_[key] = new_node;
+
+	if (this->head_ == NULL) {
+		this->head_ = this->tail_ = new_node;
 	}
 	else {
-		this->items_++;
+		// new_node->prev_ initialized as NULL
+		new_node->next_ = this->head_;
+		this->head_->prev_ = new_node;
+
+		this->head_ = new_node;
 	}
 
-	std::pair<K, V> p (key, value);
-	this->values.push_front(p);
-	this->table[key] = this->values.begin();
-	//this->table.insert(make_pair<K, V>(key, this->values.end()));
+	if (this->size_ != this->items_) this->items_++;
 }
 
 template <typename K, typename V>
 V LRUCache<K, V>::getValueFromKey(K key) {
-	auto value = this->table.find(key);
+	Node<K, V> *node = this->table_[key];
 
-	return value->second->second;
+	if (node == this->head_) {
+		return node->value_;
+	}
+
+	if (node == this->tail_) {
+		node->prev_->next_ = NULL;
+		this->tail_ = node->prev_;
+	}
+	else {
+		node->prev_->next_ = node->next_;
+		node->next_->prev_ = node->prev_;
+	}
+
+	node->prev_ = NULL;
+	node->next_ = this->head_;
+
+	node->next_->prev_ = node;
+
+	this->head_ = node;
+
+	return node->value_;
 }
 
+// template <typename K, typename V>
+// V LRUCache<K, V>::getMostRecentKey() {
+// 	return *this->values_.begin();
+// }
+
 template <typename K, typename V>
-V LRUCache<K, V>::getMostRecentKey() {
-	return *this->values.begin();
+LRUCache<K, V>::~LRUCache() {
+	if (this->head_ == NULL) {
+		return;
+	}
+
+	Node<K, V> *current = this->head_;
+
+	while (current->next_ != NULL) {
+		current = current->next_;
+
+		delete current->prev_;
+	}
+
+	delete current;
 }
 
 } // namespace eda
 
-#endif // LRU_CACHE_IPP_
+#endif // LRU_CACHE_LRU_CACHE_IPP_

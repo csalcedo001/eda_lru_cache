@@ -4,16 +4,20 @@
 namespace eda {
 
 template <typename K, typename V>
-class Node : public std::pair<K, V> {
-	Node *prev;
-	Node *next;
+class Node {
 public:
-	Node() : std::pair<K, V>() {
-		this->prev_ = NULL;
-		this->next_ = NULL;
-	}
+	K key_;
+	V value_;
+
+	Node *prev_;
+	Node *next_;
+
+	Node();
+	Node(K, V);
 };
 
 } // namespace eda
+
+#include "impl/node.ipp"
 
 #endif // LRU_CACHE_NODE_HPP_

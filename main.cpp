@@ -1,6 +1,6 @@
-#include <lru_cache.hpp>
-
 #include <iostream>
+
+#include <lru_cache.hpp>
 
 using namespace std;
 
@@ -11,6 +11,15 @@ int main() {
 	cache.insertKeyValuePair("a", 1);
 
 	cout << cache.getValueFromKey("b") << endl;
+	cout << cache.getValueFromKey("b") << endl;
+	cout << cache.getValueFromKey("b") << endl;
+	cout << cache.getValueFromKey("b") << endl;
+	cout << cache.getValueFromKey("a") << endl;
+	cout << cache.getValueFromKey("a") << endl;
+	cout << cache.getValueFromKey("b") << endl;
+	cout << cache.getValueFromKey("a") << endl;
+	cout << cache.getValueFromKey("b") << endl;
+	cout << cache.getValueFromKey("a") << endl;
 
 	return 0;
 }
