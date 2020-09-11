@@ -1,4 +1,5 @@
 #include <iostream>
+#include <climits>
 
 #include <lru_cache.hpp>
 
@@ -9,19 +10,21 @@ int main() {
 
 	cache.insertKeyValuePair("b", 2);
 	cache.insertKeyValuePair("a", 1);
+	cache.insertKeyValuePair("c", 3);
 
-	cout << cache.getValueFromKey("b").value_or(-1) << endl;
-	cout << cache.getValueFromKey("b").value_or(-1) << endl;
-	cout << cache.getValueFromKey("b").value_or(-1) << endl;
-	cout << cache.getValueFromKey("b").value_or(-1) << endl;
-	cout << cache.getValueFromKey("a").value_or(-1) << endl;
-	cout << cache.getValueFromKey("a").value_or(-1) << endl;
-	cout << cache.getValueFromKey("b").value_or(-1) << endl;
-	cout << cache.getValueFromKey("a").value_or(-1) << endl;
-	cout << cache.getValueFromKey("b").value_or(-1) << endl;
-	cout << cache.getValueFromKey("a").value_or(-1) << endl;
+	cout << cache.getMostRecentKey() << endl;
 
-	cout << cache.getValueFromKey("c").value_or(-1) << endl;
+	cout << cache.getValueFromKey("a").value_or(INT_MIN) << endl;
+
+	cout << cache.getMostRecentKey() << endl;
+
+	cache.insertKeyValuePair("d", 4);
+
+	cout << cache.getValueFromKey("b").value_or(INT_MIN) << endl;
+
+	cache.insertKeyValuePair("a", 5);
+
+	cout << cache.getValueFromKey("a").value_or(INT_MIN) << endl;
 
 	return 0;
 }
