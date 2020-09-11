@@ -1,6 +1,9 @@
 #ifndef LRU_CACHE_LRU_CACHE_IPP_
 #define LRU_CACHE_LRU_CACHE_IPP_
 
+#include <unordered_map>
+#include <optional>
+
 namespace eda {
 
 template <typename K, typename V>
@@ -44,8 +47,14 @@ void LRUCache<K, V>::insertKeyValuePair(K key, V value) {
 }
 
 template <typename K, typename V>
-V LRUCache<K, V>::getValueFromKey(K key) {
-	Node<K, V> *node = this->table_[key];
+std::optional<V> LRUCache<K, V>::getValueFromKey(K key) {
+	auto it = this->table_.find(key);
+
+	if (it == this->table_.end()) {
+		return {};
+	}
+
+	Node<K, V> *node = it->second;
 
 	if (node == this->head_) {
 		return node->value_;
@@ -70,10 +79,10 @@ V LRUCache<K, V>::getValueFromKey(K key) {
 	return node->value_;
 }
 
-// template <typename K, typename V>
-// V LRUCache<K, V>::getMostRecentKey() {
-// 	return *this->values_.begin();
-// }
+template <typename K, typename V>
+V LRUCache<K, V>::getMostRecentKey() {
+	return this->head_->key_;
+}
 
 template <typename K, typename V>
 LRUCache<K, V>::~LRUCache() {

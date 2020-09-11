@@ -2,7 +2,7 @@
 #define LRU_CACHE_LRU_CACHE_HPP_
 
 #include <unordered_map>
-#include <deque>
+#include <optional>
 #include <utility>
 
 #include <node.hpp>
@@ -24,7 +24,7 @@ public:
 	LRUCache(int);
 
 	void insertKeyValuePair(K, V);
-	V getValueFromKey(K);
+	std::optional<V> getValueFromKey(K);
 	V getMostRecentKey();
 
 	~LRUCache();
